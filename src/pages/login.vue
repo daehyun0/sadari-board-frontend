@@ -37,7 +37,11 @@ async function login() {
         </el-form-item>
         <el-form-item align="right">
           <el-button type="primary" @click="handleClickLogin">로그인</el-button>
-          <el-button>회원가입</el-button>
+          <router-link to="/join" class="link-to-join">
+            <el-button>
+              회원가입
+            </el-button>
+          </router-link>
         </el-form-item>
       </el-form>
     </div>
@@ -53,6 +57,10 @@ async function login() {
 
   & > .form-container {
     width: 300px;
+  }
+
+  .link-to-join {
+    margin-left: 10px;
   }
 }
 </style>
