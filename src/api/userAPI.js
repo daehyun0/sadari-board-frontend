@@ -1,13 +1,16 @@
-import axios from 'axios';
-import host from '@/api/host.js';
-
+import http from '@/api/baseAxios.js';
 
 export default {
-    login () {
-        return axios.get(host + '/login')
+    login() {
+        return http.get('/login')
     },
 
-    join () {
-        return axios.get(host + '/join')
+    join(email, password, name, phoneNum) {
+        return http.post('/login/join', {
+            userEmail: email,
+            userPassword: password,
+            userName: name,
+            userPhone: phoneNum
+        })
     }
 }

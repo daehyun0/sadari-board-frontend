@@ -4,19 +4,25 @@ import {ref} from "vue";
 import {useRouter} from "vue-router";
 import {ElMessageBox} from "element-plus";
 
-let id = ref('');
-let password = ref('');
-
 const router = useRouter();
 
-async function handleClickJoin() {
-  await userAPI.join({
-    id,
-    password,
-  });
+let email = ref('');
+let password = ref('');
+let name = ref('');
+let phoneNum = ref('');
 
-  await ElMessageBox.alert("회원가입 완료", "회원가입 성공");
-  await router.push('/login')
+async function handleClickJoin() {
+  try {
+    await join();
+    await ElMessageBox.alert("회원가입 완료", "회원가입 성공");
+    await router.push('/')
+  } catch (e) {
+    await ElMessageBox.alert(e.data.message, "회원가입 실패");
+  }
+}
+
+async function join() {
+  return userAPI.join(email.value, password.value, name.value, phoneNum.value);
 }
 
 function handleClickCancel() {
@@ -28,12 +34,18 @@ function handleClickCancel() {
   <div class="page-join-root">
     <h1>Join</h1>
     <div class="form-container">
-      <el-form ref="form" label-position="right" :label-width="72" @submit="login">
-        <el-form-item label="ID">
-          <el-input v-model="id"></el-input>
+      <el-form ref="form" label-position="right" :label-width="72" @submit="join">
+        <el-form-item label="Email">
+          <el-input v-model="email"></el-input>
         </el-form-item>
         <el-form-item label="Password">
           <el-input v-model="password" type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="Name">
+          <el-input v-model="name"></el-input>
+        </el-form-item>
+        <el-form-item label="PhoneNum">
+          <el-input v-model="phoneNum"></el-input>
         </el-form-item>
         <el-form-item align="right">
           <el-button @click="handleClickCancel">취소</el-button>
