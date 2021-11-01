@@ -2,25 +2,25 @@
 import {ref} from 'vue'
 import userAPI from '@/api/userAPI.js';
 import {ElMessageBox} from "element-plus";
+import {useRouter} from "vue-router";
 
-let id = ref('');
+const router = useRouter();
+
+let email = ref('');
 let password = ref('');
 
-function handleClickLogin() {
-  login();
+async function handleClickLogin() {
+  try {
+    await login();
+    await ElMessageBox.alert('로그인에 성공하셨습니다.', '로그인 성공');
+    await router.push('/posts');
+  } catch (e) {
+    await ElMessageBox.alert(e.data.message, '로그인 실패');
+  }
 }
 
-async function login() {
-  try {
-    await userAPI.login({
-      params: {
-        id,
-        password
-      }
-    });
-  } catch (e) {
-    await ElMessageBox.alert('로그인에 실패하였습니다.', '로그인 실패');
-  }
+function login() {
+  return userAPI.login(email.value, password.value);
 }
 
 </script>
@@ -30,8 +30,8 @@ async function login() {
     <h1>Login</h1>
     <div class="form-container">
       <el-form ref="form" label-position="right" :label-width="72" @submit="login">
-        <el-form-item label="ID">
-          <el-input v-model="id"></el-input>
+        <el-form-item label="Email">
+          <el-input v-model="email"></el-input>
         </el-form-item>
         <el-form-item label="Password">
           <el-input v-model="password" type="password"></el-input>
