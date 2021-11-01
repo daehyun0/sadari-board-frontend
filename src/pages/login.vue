@@ -27,6 +27,7 @@ async function login() {
 
 <template>
   <div class="page-login-root">
+    <h1>Login</h1>
     <div class="form-container">
       <el-form ref="form" label-position="right" :label-width="72" @submit="login">
         <el-form-item label="ID">
@@ -51,6 +52,7 @@ async function login() {
 <style lang="scss" scoped>
 .page-login-root {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
