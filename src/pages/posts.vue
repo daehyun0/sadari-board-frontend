@@ -3,10 +3,13 @@ import PostPreviewInBoard from '@/components/post-preview-in-board.vue'
 import BoardAPI from '@/api/post.js'
 import {reactive} from "vue";
 
-let posts = reactive([]);
-BoardAPI.lists().then(res => {
-  posts = res;
-})
+const posts = reactive([]);
+BoardAPI.lists().then(postsFromRepo => {
+  postsFromRepo.forEach(post => {
+    posts.push(post);
+  });
+});
+
 </script>
 
 <template>

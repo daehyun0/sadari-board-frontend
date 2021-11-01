@@ -1,9 +1,6 @@
-import axios from 'axios';
-import host from '@/api/host.js'
-import Post from "@/model/post";
-
 export default {
     lists () {
+        // [TODO]: posts API mapping
         // return axios.get(host + '/posts')
         return Promise.resolve([
             {
