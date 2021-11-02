@@ -12,8 +12,7 @@ let password = ref('');
 async function handleClickLogin() {
   try {
     await login();
-    await ElMessageBox.alert('로그인에 성공하셨습니다.', '로그인 성공');
-    await router.push('/posts');
+    await router.push('/products');
   } catch (e) {
     await ElMessageBox.alert(e.message, '로그인 실패');
   }
