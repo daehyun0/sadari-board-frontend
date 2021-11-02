@@ -1,7 +1,7 @@
 <script setup>
 import PostPreviewInBoard from '@/components/post-preview-in-board.vue'
 import PostsPagination from '@/components/posts-pagination.vue'
-import BoardAPI from '@/api/post.js'
+import BoardAPI from '@/api/products.js'
 import {reactive, ref} from "vue";
 import {useRoute} from "vue-router";
 

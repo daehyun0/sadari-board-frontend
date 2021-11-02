@@ -10,7 +10,7 @@ const routes = [
     { path: '/login', component: LoginPage },
     { path: '/join', component: JoinPage },
     { path: '/products', component: ProductsPage },
-    { path: '/products/:id', component: ProductDetailPage },
+    { path: '/products/:productIdx', component: ProductDetailPage },
     { path: '/:notSemantic(.*)', component: NotFoundPage },
 ];
 

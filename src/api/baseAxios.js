@@ -6,10 +6,10 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(function (response) {
     if (response.data.isSuccess) {
-        return response;
+        return response.data;
     }
 
-    return Promise.reject(response);
+    return Promise.reject(response.data);
 });
 
 export default axiosInstance;

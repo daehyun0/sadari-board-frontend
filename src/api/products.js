@@ -1,3 +1,5 @@
+import http from '@/api/baseAxios';
+
 export default {
     lists () {
         // [TODO]: posts API mapping
@@ -11,5 +13,9 @@ export default {
             }
             // new Post(123, 'asdf', 'writer1', '2021-09-11 00:00:00')
         ])
+    },
+
+    detail (idx) {
+        return http.get(`/product/${idx}`);
     }
 }
