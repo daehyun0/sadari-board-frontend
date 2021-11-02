@@ -15,7 +15,7 @@ async function handleClickJoin() {
   try {
     await join();
     await ElMessageBox.alert("회원가입 완료", "회원가입 성공");
-    await router.push('/')
+    await router.push('/login')
   } catch (e) {
     await ElMessageBox.alert(e.data.message, "회원가입 실패");
   }
