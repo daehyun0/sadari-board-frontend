@@ -15,7 +15,7 @@ async function handleClickLogin() {
     await ElMessageBox.alert('로그인에 성공하셨습니다.', '로그인 성공');
     await router.push('/posts');
   } catch (e) {
-    await ElMessageBox.alert(e.data.message, '로그인 실패');
+    await ElMessageBox.alert(e.message, '로그인 실패');
   }
 }
 
