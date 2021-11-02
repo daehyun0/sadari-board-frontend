@@ -9,7 +9,7 @@ const route = useRoute();
 const posts = reactive([]);
 BoardAPI.lists().then(postsFromRepo => {
   postsFromRepo.forEach(post => {
-    posts.push(post);
+    products.push(post);
   });
 });
 
@@ -28,7 +28,7 @@ getDataFromQuery();
 <template>
   <div class="page-posts-root">
     <h1>Posts</h1>
-    <post-preview-in-board :posts="posts"></post-preview-in-board>
+    <post-preview-in-board :posts="products"></post-preview-in-board>
     <posts-pagination :current-page="page" :page-size="countPerPage" :total="200"></posts-pagination>
   </div>
 </template>
