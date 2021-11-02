@@ -2,11 +2,13 @@
   <div class="page-products-root">
     <h1>Products</h1>
     <div class="list">
-      <product-preview-in-board v-for="product in products"
-                                :product="product"
-                                class="component-product-preview"></product-preview-in-board>
+      <router-link v-for="product in products"
+                   class="product-preview"
+                   :to="'/products/' + product.idx">
+        <product-preview-in-board :product="product"></product-preview-in-board>
+      </router-link>
     </div>
-<!--        <posts-pagination :current-page="page" :page-size="countPerPage" :total="200"></posts-pagination>-->
+    <!--        <posts-pagination :current-page="page" :page-size="countPerPage" :total="200"></posts-pagination>-->
   </div>
 </template>
 
@@ -20,8 +22,15 @@ import ProductInList from "@/model/product-in-list";
 const route = useRoute();
 const products = reactive([]);
 BoardAPI.lists().then(({recommendResult}) => {
-  recommendResult.forEach(({productImgUrl, productName, productPrice, productReviewCount, avgReviewScore}) => {
-    products.push(new ProductInList(productImgUrl, productName, productPrice, avgReviewScore, productReviewCount));
+  recommendResult.forEach(({
+                             productIdx,
+                             productImgUrl,
+                             productName,
+                             productPrice,
+                             productReviewCount,
+                             avgReviewScore
+                           }) => {
+    products.push(new ProductInList(productIdx, productImgUrl, productName, productPrice, avgReviewScore, productReviewCount));
   });
 });
 
@@ -45,7 +54,7 @@ getDataFromQuery();
     display: flex;
     flex-wrap: wrap;
 
-    .component-product-preview + .component-product-preview {
+    .product-preview + .product-preview {
       margin-left: 12px;
 
       &:nth-child(3n + 1) {

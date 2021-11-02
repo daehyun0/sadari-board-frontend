@@ -4,9 +4,11 @@ class ProductInList {
     price
     avgScore
     reviewCount
+    idx
 
 
-    constructor(image, name, price, avgScore, reviewCount) {
+    constructor(idx, image, name, price, avgScore, reviewCount) {
+        this.idx = idx;
         this.image = 'http://' + image;
         this.name = name;
         this.price = price;
