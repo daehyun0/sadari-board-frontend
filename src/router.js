@@ -7,7 +7,7 @@ const ProductDetailPage = () => import('@/pages/product/detail.vue')
 const NotFoundPage = () => import('@/pages/not-found.vue')
 
 const routes = [
-    { path: '/', component: LoginPage },
+    { path: '/login', component: LoginPage },
     { path: '/join', component: JoinPage },
     { path: '/products', component: ProductsPage },
     { path: '/products/:id', component: ProductDetailPage },
