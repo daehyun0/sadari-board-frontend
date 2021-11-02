@@ -80,7 +80,6 @@ export default {
 
 <style scoped lang="scss">
 .page-products-detail-root {
-  max-width: 720px;
   width: 100%;
 
   & > .info-header {

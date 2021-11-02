@@ -9,6 +9,8 @@ html {
 
 body {
   height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 #app {
@@ -18,7 +20,7 @@ body {
   text-align: center;
   color: #2c3e50;
   height: 100%;
-  display: flex;
-  justify-content: center;
+  max-width: 720px;
+  width: 100%;
 }
 </style>
