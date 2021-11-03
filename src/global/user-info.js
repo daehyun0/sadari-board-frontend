@@ -1,7 +1,7 @@
 import { Base64 } from 'js-base64'
 import accessToken from "@/utils/accessToken";
 
-const exporting = {
+const UserInfo = {
     set(jwtPayload) {
         userInfo = {
             ...JSON.parse(Base64.decode(jwtPayload))
@@ -13,7 +13,10 @@ const exporting = {
     }
 }
 
-export default exporting;
+export default UserInfo;
 
 let userInfo = {}
-exporting.set(accessToken.get().split(".")[1]);
+const token = accessToken.get();
+if (token) {
+    UserInfo.set(token.split(".")[1]);
+}
