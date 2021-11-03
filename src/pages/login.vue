@@ -36,10 +36,10 @@ function login() {
     <h1>Login</h1>
     <div class="form-container">
       <el-form ref="form" label-position="right" :label-width="72" @submit="login">
-        <el-form-item label="Email">
+        <el-form-item label="이메일">
           <el-input v-model="email"></el-input>
         </el-form-item>
-        <el-form-item label="Password">
+        <el-form-item label="비밀번호">
           <el-input v-model="password" type="password"></el-input>
         </el-form-item>
         <el-form-item align="right">

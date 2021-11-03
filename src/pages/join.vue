@@ -34,17 +34,17 @@ function handleClickCancel() {
   <div class="page-join-root">
     <h1>Join</h1>
     <div class="form-container">
-      <el-form ref="form" label-position="right" :label-width="72" @submit="join">
-        <el-form-item label="Email">
+      <el-form ref="form" label-position="right" :label-width="100" @submit="join">
+        <el-form-item label="이메일">
           <el-input v-model="email"></el-input>
         </el-form-item>
-        <el-form-item label="Password">
+        <el-form-item label="비밀번호">
           <el-input v-model="password" type="password"></el-input>
         </el-form-item>
-        <el-form-item label="Name">
+        <el-form-item label="이름">
           <el-input v-model="name"></el-input>
         </el-form-item>
-        <el-form-item label="PhoneNum">
+        <el-form-item label="핸드폰번호">
           <el-input v-model="phoneNum"></el-input>
         </el-form-item>
         <el-form-item align="right">
