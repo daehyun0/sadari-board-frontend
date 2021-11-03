@@ -1,3 +1,5 @@
+import ReviewScoreFormatter from "@/utils/ReviewScoreFormatter";
+
 class ProductInList {
     image
     name
@@ -11,8 +13,8 @@ class ProductInList {
         this.idx = idx;
         this.image = 'http://' + image;
         this.name = name;
-        this.price = price;
-        this.avgScore = avgScore;
+        this.price = ReviewScoreFormatter.format(price);
+        this.avgScore = ReviewScoreFormatter.format(avgScore);
         this.reviewCount = reviewCount;
     }
 }

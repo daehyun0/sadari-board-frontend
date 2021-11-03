@@ -1,8 +1,11 @@
 <script setup>
-import {ref} from 'vue'
 import userAPI from '@/api/userAPI.js';
+import userInfo from "@/global/user-info";
+
+import {ref} from 'vue'
 import {ElMessageBox} from "element-plus";
 import {useRouter} from "vue-router";
+import accessToken from "@/utils/accessToken";
 
 const router = useRouter();
 
@@ -11,8 +14,12 @@ let password = ref('');
 
 async function handleClickLogin() {
   try {
-    await login();
+    const {JWT} = await login();
     await router.push('/products');
+
+    const payload = JWT.split('.')[1];
+    userInfo.set(payload);
+    accessToken.set(JWT);
   } catch (e) {
     await ElMessageBox.alert(e.message, '로그인 실패');
   }

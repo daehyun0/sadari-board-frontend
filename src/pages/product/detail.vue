@@ -5,7 +5,7 @@
       <div class="info-without-image-container">
         <div class="text-info">
           <h2 class="product-name">{{ product?.productName }}</h2>
-          <h3 class="product-price">{{ product?.productPrice }}원</h3>
+          <h3 class="product-price">{{ productPrice }}원</h3>
           <div class="avg-score">
             <el-rate v-model="productAvgReviewScore"
                      disabled
@@ -16,13 +16,20 @@
           <div class="review">
 
             <div class="review-container">
-              <el-card class="review-content" v-for="review in productReviews">
+              <el-card class="review-content" v-for="(review, idx) in productReviews">
+                <el-icon class="remove"
+                         :size="16"
+                         v-if="isReviewWrittenByUser(idx, myUserName)"
+                         @click="handleClickRemoveReview">
+                  <close/>
+                </el-icon>
+
                 <div>{{ review?.contents }}</div>
                 <el-rate v-model="review.reviewScore"
                          disabled
                          show-score
                          text-color="#ff9900"
-                         score-template="{value} points"></el-rate>
+                         :score-template="'{value} points'"></el-rate>
               </el-card>
             </div>
           </div>
@@ -36,30 +43,98 @@
 
     <el-skeleton class="info-detail" :loading="true" animated>
       <template #template>
-        <el-skeleton-item variant="image" style="width: 100%; height: 2560px;" />
+        <el-skeleton-item variant="image" style="width: 100%; height: 480px;"/>
       </template>
     </el-skeleton>
+
+    <el-card class="write-review-container" v-if="!isExistReview">
+      <h3>리뷰 작성하기</h3>
+      <el-rate v-model="rate"
+               show-score
+               text-color="#ff9900"
+               score-template="{value} points"></el-rate>
+      <div class="layout-horizontal-form-item">
+        <el-input type="textarea"
+                  v-model="reviewContents"
+                  :rows="2"></el-input>
+        <el-button type="primary" @click="handleClickSubmitReview">작성하기</el-button>
+      </div>
+    </el-card>
   </div>
 </template>
 
+<script setup>
+import {Close} from '@element-plus/icons'
+import UserInfo from '@/global/user-info.js'
+
+const myUserName = UserInfo.get('userName');
+
+</script>
 <script>
 import ProductsAPI from '@/api/products';
+import ReviewAPI from '@/api/review';
+import {ElMessageBox} from "element-plus";
+import ReviewScoreFormatter from "@/utils/ReviewScoreFormatter";
 
 export default {
-  async created() {
-    this.productAPIResult = (await ProductsAPI.detail(this.$route.params.productIdx))
+  created() {
+    this.fetchProductDetail();
+  },
+
+  methods: {
+    async fetchProductDetail() {
+      this.productAPIResult = (await ProductsAPI.detail(this.$route.params.productIdx))
+    },
+
+    async handleClickSubmitReview() {
+      try {
+        await this.addReview()
+        ElMessageBox.alert("상품평이 등록되었습니다.", "상품평 등록 성공");
+        this.fetchProductDetail();
+      } catch (e) {
+        await ElMessageBox.alert(e.message, "상품평 등록 실패");
+      }
+    },
+
+    async handleClickRemoveReview() {
+      try {
+        await this.removeReview()
+        ElMessageBox.alert("상품평이 삭제되었습니다.", "상품평 삭제 성공");
+        this.fetchProductDetail();
+      } catch (e) {
+        await ElMessageBox.alert(e.message, "상품평 삭제 실패");
+      }
+    },
+
+    async addReview() {
+      await ReviewAPI.add(this.$route.params.productIdx, this.myUserIdx, this.reviewContents, this.rate);
+    },
+
+    async removeReview() {
+      await ReviewAPI.remove(this.$route.params.productIdx, this.myUserIdx);
+    },
+
+    isReviewWrittenByUser(reviewIdx, userName) {
+      return this.productAPIResult?.productReviewContentResult &&
+          (this.productAPIResult?.productReviewContentResult[reviewIdx].userName === userName)
+    },
   },
 
   data() {
     return {
       productAPIResult: {},
-      rate: 3.2222,
+      rate: 0,
+      reviewContents: ''
     }
   },
 
   computed: {
     product() {
       return this.productAPIResult?.productResult && this.productAPIResult?.productResult[0];
+    },
+
+    productPrice() {
+      return ReviewScoreFormatter.format(this.product?.productPrice);
     },
 
     productImageUrl() {
@@ -71,7 +146,17 @@ export default {
     },
 
     productAvgReviewScore() {
-      return this.productAPIResult?.productReviewScoreResult && this.productAPIResult?.productReviewScoreResult[0]?.avgReviewScore
+      return this.productAPIResult?.productReviewScoreResult &&
+          ReviewScoreFormatter.format(this.productAPIResult?.productReviewScoreResult[0]?.avgReviewScore)
+    },
+
+    isExistReview() {
+      if (!this.productAPIResult?.productReviewContentResult) {
+        return false;
+      }
+      console.log(this.productAPIResult?.productReviewContentResult)
+
+      return this.productAPIResult?.productReviewContentResult.some(review => review.userName === this.myUserName);
     }
   }
 }
@@ -87,15 +172,16 @@ export default {
     justify-content: space-between;
 
     img {
-      width: 480px;
-      height: 480px;
+      width: 400px;
+      height: 400px;
     }
 
     .info-without-image-container {
+      flex: 1 1 auto;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 480px;
+      height: 400px;
       margin-left: 28px;
 
       & > .text-info {
@@ -113,8 +199,20 @@ export default {
             display: none;
           }
 
-          .review-content + .review-content {
-            margin-top: 4px;
+          .review-content {
+            position: relative;
+
+            .remove {
+              position: absolute;
+              top: 8px;
+              right: 16px;
+              color: var(--el-color-black);
+              cursor: pointer;
+            }
+
+            & + .review-content {
+              margin-top: 4px;
+            }
           }
         }
       }
@@ -129,6 +227,20 @@ export default {
   & > .info-detail {
     width: 100%;
     margin-top: 24px;
+  }
+
+  & > .write-review-container {
+    margin-top: 24px;
+
+    .layout-horizontal-form-item {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 24px;
+
+      :deep(button) {
+        margin-left: 12px;
+      }
+    }
   }
 }
 </style>
