@@ -1,9 +1,8 @@
 import http from '@/api/baseAxios'
 
 export default {
-    add(productIdx, userIdx, contents, reviewScore) {
+    add(productIdx, contents, reviewScore) {
         return http.post(`/product/${productIdx}/review`, {
-            userIdx,
             contents,
             reviewScore
         });

@@ -107,7 +107,7 @@ export default {
     },
 
     async addReview() {
-      await ReviewAPI.add(this.$route.params.productIdx, this.myUserIdx, this.reviewContents, this.rate);
+      await ReviewAPI.add(this.$route.params.productIdx, this.reviewContents, this.rate);
     },
 
     async removeReview() {
