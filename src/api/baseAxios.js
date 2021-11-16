@@ -2,7 +2,7 @@ import axios from 'axios';
 import AccessTokenUtils from '@/utils/accessToken'
 
 const axiosInstance = axios.create({
-    baseURL: 'http://api.sadari.click'
+    baseURL: 'https://api.sadari.click'
 })
 
 axiosInstance.interceptors.request.use(function (config) {
