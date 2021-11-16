@@ -22,10 +22,8 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from) => {
-    console.log(to.meta.needLogin)
     if (to.meta.needLogin) {
         const accessToken = accessTokenRepository.get();
-        console.log(accessToken)
 
         if (!accessToken) {
             return '/login';
