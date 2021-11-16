@@ -15,11 +15,11 @@ let password = ref('');
 async function handleClickLogin() {
   try {
     const {JWT} = await login();
-    await router.push('/products');
-
     const payload = JWT.split('.')[1];
     userInfo.set(payload);
     accessToken.set(JWT);
+
+    await router.push('/products');
   } catch (e) {
     await ElMessageBox.alert(e.message, '로그인 실패');
   }
