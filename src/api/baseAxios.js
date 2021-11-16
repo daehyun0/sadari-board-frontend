@@ -2,7 +2,7 @@ import axios from 'axios';
 import AccessTokenUtils from '@/utils/accessToken'
 
 const axiosInstance = axios.create({
-    baseURL: 'http://13.124.239.157:3000'
+    baseURL: 'http://k8s-sadari-sadariin-6890234c5d-304695645.ap-northeast-2.elb.amazonaws.com'
 })
 
 axiosInstance.interceptors.request.use(function (config) {
