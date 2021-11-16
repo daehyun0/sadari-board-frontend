@@ -89,7 +89,7 @@ export default {
     async handleClickSubmitReview() {
       try {
         await this.addReview()
-        ElMessageBox.alert("상품평이 등록되었습니다.", "상품평 등록 성공");
+        await ElMessageBox.alert("상품평이 등록되었습니다.", "상품평 등록 성공");
         this.fetchProductDetail();
       } catch (e) {
         await ElMessageBox.alert(e.message, "상품평 등록 실패");
@@ -99,19 +99,19 @@ export default {
     async handleClickRemoveReview() {
       try {
         await this.removeReview()
-        ElMessageBox.alert("상품평이 삭제되었습니다.", "상품평 삭제 성공");
+        await ElMessageBox.alert("상품평이 삭제되었습니다.", "상품평 삭제 성공");
         this.fetchProductDetail();
       } catch (e) {
         await ElMessageBox.alert(e.message, "상품평 삭제 실패");
       }
     },
 
-    async addReview() {
-      await ReviewAPI.add(this.$route.params.productIdx, this.reviewContents, this.rate);
+    addReview() {
+      return ReviewAPI.add(this.$route.params.productIdx, this.reviewContents, this.rate);
     },
 
-    async removeReview() {
-      await ReviewAPI.remove(this.$route.params.productIdx, this.myUserIdx);
+    removeReview() {
+      return ReviewAPI.remove(this.$route.params.productIdx, this.myUserIdx);
     },
 
     isReviewWrittenByUser(reviewIdx, userName) {
