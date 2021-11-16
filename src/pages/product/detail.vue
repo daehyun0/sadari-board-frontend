@@ -146,8 +146,17 @@ export default {
     },
 
     productAvgReviewScore() {
-      return this.productAPIResult?.productReviewScoreResult &&
+      if (!this.productAPIResult?.productReviewScoreResult) {
+        return 0;
+      }
+
+      if (this.productAPIResult?.productReviewScoreResult.length === 0) {
+        return 0;
+      }
+
+      return Number(
           ReviewScoreFormatter.format(this.productAPIResult?.productReviewScoreResult[0]?.avgReviewScore)
+      );
     },
 
     isExistReview() {
