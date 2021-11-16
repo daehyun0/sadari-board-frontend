@@ -63,17 +63,12 @@
   </div>
 </template>
 
-<script setup>
-import {Close} from '@element-plus/icons'
-import UserInfo from '@/global/user-info.js'
-
-const myUserName = UserInfo.get('userName');
-
-</script>
 <script>
+import UserInfo from '@/global/user-info.js'
 import ProductsAPI from '@/api/products';
 import ReviewAPI from '@/api/review';
 import {ElMessageBox} from "element-plus";
+import {Close} from '@element-plus/icons'
 import ReviewScoreFormatter from "@/utils/ReviewScoreFormatter";
 
 export default {
@@ -124,8 +119,13 @@ export default {
     return {
       productAPIResult: {},
       rate: 0,
-      reviewContents: ''
+      reviewContents: '',
+      myUserName: UserInfo.get('userName')
     }
+  },
+
+  components: {
+    Close
   },
 
   computed: {
@@ -163,7 +163,6 @@ export default {
       if (!this.productAPIResult?.productReviewContentResult) {
         return false;
       }
-      console.log(this.productAPIResult?.productReviewContentResult)
 
       return this.productAPIResult?.productReviewContentResult.some(review => review.userName === this.myUserName);
     }
