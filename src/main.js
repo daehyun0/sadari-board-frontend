@@ -6,7 +6,7 @@ import router from './router.js'
 
 const app = createApp(App)
 
-console.log('newFeature1-6')
+console.log('newFeature1-7')
 
 app.use(router)
 app.use(ElementPlus)
